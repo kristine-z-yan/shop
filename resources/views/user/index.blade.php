@@ -29,27 +29,37 @@
                         <th>Name</th>
                         <th>Email</th>
                         <th>Registered</th>
-                        <th>Actions</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
+                    @foreach($users as $index => $user)
+                        <tr>
                         <td>
 							<span class="custom-checkbox">
-								<input type="checkbox" id="checkbox1" name="options[]" value="1">
-								<label for="checkbox1"></label>
+								<input type="checkbox" id="checkbox{{$index}}" name="options[]" value="{{$user->id}}">
+								<label for="checkbox{{$index}}"></label>
 							</span>
                         </td>
-                        <td>1</td>
-                        <td>Admin</td>
-                        <td>Test</td>
-                        <td>bbbb@bb.bb</td>
-                        <td>04 Feb 2020</td>
+                        <td>{{$user->id}}</td>
                         <td>
-                            <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                            <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                            @switch($user->role)
+                                @case(1)
+                                Admin
+                                @break
+
+                                @case(2)
+                                Employee
+                                @break
+
+                                @default
+                                Customer
+                            @endswitch
                         </td>
+                        <td>{{$user->name}}</td>
+                        <td>{{$user->email}}</td>
+                        <td>{{$user->created_at->format('Y.m.d H:i:s')}}</td>
                     </tr>
+                        @endforeach
                     </tbody>
                 </table>
                 <div class="clearfix">
@@ -66,30 +76,66 @@
                 </div>
             </div>
         </div>
-        <!-- Edit Modal HTML -->
+        <!-- Add Employee Modal HTML -->
         <div id="addEmployeeModal" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <form>
+                    <form method="POST" action="{{ route('users.store') }}">
                         <div class="modal-header">
                             <h4 class="modal-title">Add Employee</h4>
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                         </div>
                         <div class="modal-body">
+                            @csrf
                             <div class="form-group">
-                                <label>Name</label>
-                                <input type="text" class="form-control" required>
+                                <label for="name">{{ __('Name') }}</label>
+                                <input id="name" type="text"
+                                       class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}"
+                                       name="name" value="{{ old('name') }}" required autofocus>
+
+                                @if ($errors->has('name'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('name') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+
+                            <div class="form-group">
+                                <label for="email">{{ __('E-Mail Address') }}</label>
+                                <input id="email" type="email"
+                                       class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}"
+                                       name="email" value="{{ old('email') }}" required>
+
+                                @if ($errors->has('email'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('email') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+
+                            <div class="form-group">
+                                <label for="password">{{ __('Password') }}</label>
+                                <input id="password" type="password"
+                                       class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}"
+                                       name="password" required>
+
+                                @if ($errors->has('password'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('password') }}</strong>
+                                    </span>
+                                @endif
                             </div>
                             <div class="form-group">
-                                <label>Email</label>
-                                <input type="email" class="form-control" required>
+                                <label for="password-confirm">{{ __('Confirm Password') }}</label>
+                                <input id="password-confirm" type="password" class="form-control"
+                                       name="password_confirmation" required>
                             </div>
                             <div class="form-group">
                                 <label>Role</label>
                                 <select class="form-control" required>
                                     <option value="0">User</option>
                                     <option value="1">Admin</option>
-                                    <option value="2">Employer</option>
+                                    <option value="2">Employee</option>
                                 </select>
                             </div>
                         </div>
@@ -98,62 +144,7 @@
                             <input type="submit" class="btn btn-success" value="Add">
                         </div>
                     </form>
-                </div>
-            </div>
-        </div>
-        <!-- Edit Modal HTML -->
-        <div id="editEmployeeModal" class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <form>
-                        <div class="modal-header">
-                            <h4 class="modal-title">Edit Employee</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <label>Name</label>
-                                <input type="text" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Email</label>
-                                <input type="email" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Role</label>
-                                <select class="form-control" required>
-                                    <option value="0">User</option>
-                                    <option value="1">Admin</option>
-                                    <option value="2">Employer</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                            <input type="submit" class="btn btn-info" value="Save">
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <!-- Delete Modal HTML -->
-        <div id="deleteEmployeeModal" class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <form>
-                        <div class="modal-header">
-                            <h4 class="modal-title">Delete Employee</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        </div>
-                        <div class="modal-body">
-                            <p>Are you sure you want to delete these Records?</p>
-                            <p class="text-warning"><small>This action cannot be undone.</small></p>
-                        </div>
-                        <div class="modal-footer">
-                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                            <input type="submit" class="btn btn-danger" value="Delete">
-                        </div>
-                    </form>
+
                 </div>
             </div>
         </div>

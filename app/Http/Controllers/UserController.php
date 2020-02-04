@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -9,11 +10,12 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index()
     {
-        return view('user.index');
+        $users = User::all();
+        return view('user.index', compact('users'));
     }
 
     /**
@@ -30,11 +32,13 @@ class UserController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
-        //
+        $sent_data = $request->all();
+        $user = User::create($sent_data);
+        return back();
     }
 
     /**
@@ -45,7 +49,9 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        $user = User::find($id)->toArray();
+//        dd($user);
+        return response()->json($user);
     }
 
     /**
@@ -68,7 +74,7 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        dd($request->all());
     }
 
     /**
