@@ -16,3 +16,10 @@ Route::get('/', function () {
 });
 
 Auth::routes();
+
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/dashboard', 'Admin\HomeController@index')->name('dashboard');
+
+    Route::resource('products', 'ProductController');
+    Route::resource('users', 'UserController');
+});
