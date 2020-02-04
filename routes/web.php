@@ -23,3 +23,4 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource('products', 'ProductController');
     Route::resource('users', 'UserController');
 });
+
