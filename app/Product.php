@@ -15,6 +15,11 @@ class Product extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'cost_price', 'price', 'img',
+        'name', 'cost_price', 'price', 'qnt', 'img',
     ];
+
+    public function sales()
+    {
+        return $this->hasMany('App\Sale', 'product_id', 'id');
+    }
 }

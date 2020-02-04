@@ -28,6 +28,7 @@
                         <th>Name</th>
                         <th>Cost Price</th>
                         <th>Price</th>
+                        <th>Quantity</th>
                         <th>Image</th>
                         <th>Actions</th>
                     </tr>
@@ -45,6 +46,7 @@
                         <td>{{$product->name}}</td>
                         <td>{{$product->cost_price}}</td>
                         <td>{{$product->price}}</td>
+                        <td>{{$product->qnt}}</td>
                         <td>
                             <img class="product-img" src="img/products/{{$product->img}}" alt="">
                         </td>
@@ -95,6 +97,10 @@
                                 <input type="number" class="form-control" name="price" required>
                             </div>
                             <div class="form-group">
+                                <label>Quantity</label>
+                                <input type="number" class="form-control" name="qnt" value="1" required>
+                            </div>
+                            <div class="form-group">
                                 <label>Image</label>
                                 <input type="file" class="form-control" name="img" required>
                             </div>
@@ -107,41 +113,7 @@
                 </div>
             </div>
         </div>
-        <!-- Edit Modal HTML -->
-        <div id="editProductModal" class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <form>
-                        <div class="modal-header">
-                            <h4 class="modal-title">Edit Product</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <label>Name</label>
-                                <input type="text" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Cost Price</label>
-                                <input type="number" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Price</label>
-                                <input type="number" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Image</label>
-                                <input type="file" class="form-control" required>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                            <input type="submit" class="btn btn-info" value="Save">
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+
         <!-- Delete Modal HTML -->
         <div id="deleteProductModal" class="modal fade">
             <div class="modal-dialog">

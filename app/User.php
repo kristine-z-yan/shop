@@ -36,4 +36,10 @@ class User extends Authenticatable
     protected $casts = [
         //
     ];
+
+    public function sales()
+    {
+        return $this->hasMany('App\Sale', 'user_id', 'id');
+    }
+
 }

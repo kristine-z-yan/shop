@@ -5,10 +5,7 @@
             <form action="{{ route('products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 {{ method_field('PUT') }}
-                <div class="modal-header">
-                    <h4 class="modal-title">Edit Product</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                </div>
+                <h4 class="modal-title">Edit Product</h4>
                 <div class="modal-body">
                     <div class="form-group">
                         <label>Name</label>
@@ -21,6 +18,10 @@
                     <div class="form-group">
                         <label>Price</label>
                         <input type="number" class="form-control" name="price" required value="{{$product->price}}">
+                    </div>
+                    <div class="form-group">
+                        <label>Price</label>
+                        <input type="number" class="form-control" name="qnt" required value="{{$product->qnt}}">
                     </div>
                     <div class="form-group">
                         <label>Image</label>

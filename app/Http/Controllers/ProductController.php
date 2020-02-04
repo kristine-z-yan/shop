@@ -47,6 +47,7 @@ class ProductController extends Controller
                     'name' => $sent_data['name'],
                     'cost_price' => $sent_data['cost_price'],
                     'price' => $sent_data['price'],
+                    'qnt' => $sent_data['qnt'],
                     'img' => $img_name
                 ];
                 Product::create($data);
@@ -111,6 +112,7 @@ class ProductController extends Controller
             'name' => $sent_data['name'],
             'cost_price' => $sent_data['cost_price'],
             'price' => $sent_data['price'],
+            'qnt' => $sent_data['qnt'],
             'img' => $product_img
         ];
 
