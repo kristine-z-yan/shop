@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -15,7 +17,7 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::all();
-        return view('product.index', $products);
+        return view('product.index', compact('products'));
     }
 
     /**
@@ -36,7 +38,21 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $sent_data = $request->all();
+        if($request->file('img')) {
+            $img_name = $request->file('img')->hashName();
+            $upload = $request->file('img')->move('img/products', $img_name);
+            if ($upload) {
+                $data = [
+                    'name' => $sent_data['name'],
+                    'cost_price' => $sent_data['cost_price'],
+                    'price' => $sent_data['price'],
+                    'img' => $img_name
+                ];
+                Product::create($data);
+                return back();
+            }
+        }
     }
 
     /**
@@ -58,7 +74,8 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        //
+         $product =  Product::FindOrFail($id);
+         return view('product.edit', compact('product'));
     }
 
     /**
@@ -70,7 +87,38 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $product_data = Product::find($id);
+        $product_img = $product_data['img'];
+        $file = Storage::disk('public')->exists($product_img);
+
+        if ($request->hasFile('img')){
+            if($file){
+                File::delete(public_path('img/products/' . $product_img));
+            }
+            $name = $request->file('img')->hashName();
+            $move = $request->file('img')->move('img/products',$name);
+            if($move){
+                $product_img = $name;
+            } else {
+                return back()->withInput();
+            }
+        } else {
+            $product_img = $product_data['img'];
+        }
+        $sent_data = $request->all();
+
+        $data = [
+            'name' => $sent_data['name'],
+            'cost_price' => $sent_data['cost_price'],
+            'price' => $sent_data['price'],
+            'img' => $product_img
+        ];
+
+        $update = Product::find($id)->update($data);
+
+        if ($update) {
+            return back();
+        }
     }
 
     /**
@@ -81,6 +129,11 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $product = Product::find($id);
+        File::delete(public_path('img/products/' . $product['img']));
+        $delete = $product->delete();
+        if ($delete) {
+            return back();
+        }
     }
 }

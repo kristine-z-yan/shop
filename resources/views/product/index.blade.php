@@ -33,25 +33,27 @@
                     </tr>
                     </thead>
                     <tbody>
+                    @foreach($products as $index => $product)
                     <tr>
                         <td>
 							<span class="custom-checkbox">
-								<input type="checkbox" id="checkbox1" name="options[]" value="1">
-								<label for="checkbox1"></label>
+								<input type="checkbox" id="checkbox{{$index}}" name="options[]" value="{{$product->id}}">
+								<label for="checkbox{{$index}}"></label>
 							</span>
                         </td>
-                        <td>1</td>
-                        <td>LONG RED SHIRT</td>
-                        <td>120$</td>
-                        <td>139$</td>
+                        <td>{{$product->id}}</td>
+                        <td>{{$product->name}}</td>
+                        <td>{{$product->cost_price}}</td>
+                        <td>{{$product->price}}</td>
                         <td>
-                            <img class="product-img" src="img/products/1.jpg" alt="">
+                            <img class="product-img" src="img/products/{{$product->img}}" alt="">
                         </td>
                         <td>
-                            <a href="#editProductModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                            <a href="#deleteProductModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                            <a href="{{ route('products.edit', $product->id) }}" class="edit"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                            <a href="#deleteProductModal" class="delete delete-btn" data-toggle="modal" data-id="{{$product->id}}"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                         </td>
                     </tr>
+                        @endforeach
                     </tbody>
                 </table>
                 <div class="clearfix">
@@ -68,31 +70,33 @@
                 </div>
             </div>
         </div>
-        <!-- Edit Modal HTML -->
+        <!-- Add Product Modal HTML -->
         <div id="addProductModal" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <form>
+                    <form method="POST" action="{{ route('products.store') }}" enctype="multipart/form-data">
+
                         <div class="modal-header">
                             <h4 class="modal-title">Add Product</h4>
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                         </div>
                         <div class="modal-body">
+                            @csrf
                             <div class="form-group">
                                 <label>Name</label>
-                                <input type="text" class="form-control" required>
+                                <input type="text" class="form-control" name="name" required>
                             </div>
                             <div class="form-group">
                                 <label>Cost Price</label>
-                                <input type="number" class="form-control" required>
+                                <input type="number" class="form-control" name="cost_price" required>
                             </div>
                             <div class="form-group">
                                 <label>Price</label>
-                                <input type="number" class="form-control" required>
+                                <input type="number" class="form-control" name="price" required>
                             </div>
                             <div class="form-group">
                                 <label>Image</label>
-                                <input type="file" class="form-control" required>
+                                <input type="file" class="form-control" name="img" required>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -142,7 +146,9 @@
         <div id="deleteProductModal" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <form>
+                    <form class="delete-form" method="POST">
+                        @csrf
+                        {{ method_field('DELETE') }}
                         <div class="modal-header">
                             <h4 class="modal-title">Delete Product</h4>
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>

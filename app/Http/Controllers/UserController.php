@@ -50,7 +50,6 @@ class UserController extends Controller
     public function show($id)
     {
         $user = User::find($id)->toArray();
-//        dd($user);
         return response()->json($user);
     }
 

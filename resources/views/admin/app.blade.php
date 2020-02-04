@@ -9,11 +9,11 @@
         <!-- Custom styles for this template -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-        <link href="css/bootstrap.min.css" rel="stylesheet">
-        <link href="css/font-awesome.min.css" rel="stylesheet">
-        <link href="css/admin/simple-sidebar.css" rel="stylesheet">
-        <link href="css/admin/crud-data-table.css" rel="stylesheet">
-        <link href="css/admin/main.css" rel="stylesheet">
+        <link href="/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/css/font-awesome.min.css" rel="stylesheet">
+        <link href="/css/admin/simple-sidebar.css" rel="stylesheet">
+        <link href="/css/admin/crud-data-table.css" rel="stylesheet">
+        <link href="/css/admin/main.css" rel="stylesheet">
 
     </head>
     <body>
@@ -64,9 +64,9 @@
 
 
     <!-- Bootstrap core JavaScript -->
-    <script src="js/jquery-3.2.1.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/admin/main.js"></script>
+    <script src="/js/jquery-3.2.1.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/admin/main.js"></script>
 
     </body>
 </html>
