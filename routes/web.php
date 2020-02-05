@@ -11,9 +11,9 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'HomeController@index');
+Route::get('add-to-cart/{id}', 'HomeController@addToCart')->name('add-to-cart');
+Route::get('remove-from-cart/{id}', 'HomeController@removeFromCart')->name('remove-from-cart');
 
 Auth::routes();
 

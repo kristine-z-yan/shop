@@ -2,7 +2,7 @@
 ------------------------------------
 	The Plaza - eCommerce Template
 	Version: 1.0
- ------------------------------------ 
+ ------------------------------------
  ====================================*/
 
 
@@ -13,7 +13,7 @@ $(window).on('load', function() {
 	/*------------------
 		Preloder
 	--------------------*/
-	$(".loader").fadeOut(); 
+	$(".loader").fadeOut();
 	$("#preloder").delay(400).fadeOut("slow");
 
 
@@ -113,6 +113,16 @@ $(window).on('load', function() {
 			$('.product-big-img').attr({src: imgurl});
 		}
 	})
+
+    $(document).ready(function () {
+        $('.card-bag').on('click',function(){
+            $('#sidebar').addClass('active')
+        })
+
+        $('.btn-close').on('click',function(){
+            $('#sidebar').removeClass('active')
+        })
+    })
 
 })(jQuery);
 
